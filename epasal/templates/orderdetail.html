@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <h3>Order(EPON_{{ cp_id }}):</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>Products</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Order Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for cart_product in order.cart.cartproduct_set.all %}
+            <tr>
+                
+                <td>{{ cart_product.product.name }}</td>
+                <td>{{ cart_product.product.price }}</td>
+                <td>{{ cart_product.quantity }}</td>
+                <td>{{ cart_product.subtotal }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.status }}</td>
+                
+                
+            </tr>
+            
+           
+            {% endfor %}
+            
+            <tr>
+                <td>Total:</td>
+                <td>Rs. {{ order.cart.total }}</td>
+
+
+
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    {% if order.status == 'Order Processing' %}
+    <a href="{% url 'store:cancelorder' order.id %}" class="btn btn-primary">Cancel Order</a>
+    {% endif %}
+    
+</div>
+{% endblock %}

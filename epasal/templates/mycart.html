@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>My Cart</h2>
+        <table class="table table-hover" border="1px">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.cartproduct_set.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.subtotal }}</td>
+                    <td>
+                        <a href="{% url 'store:managecart' item.id %}?action=inc" class="btn btn-primary">+</a>
+                        <a href="{% url 'store:managecart' item.id %}?action=dcr" class="btn btn-warning">-</a>
+                        <a href="{% url 'store:managecart' item.id %}?action=rmv" class="btn btn-danger">X</a>
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+                <tr>
+                    {% if  cart.cartproduct_set.all %}
+                    <th colspan="3" class="text-right">Total</th>
+                    <td>Rs. {{ cart.total }}</td>
+                    <!-- //this means if there is any product in the cart then only show the checkout button -->
+                    <th><a href="{% url 'store:emptycart' %}" class="btn btn-danger">Empty Cart</a></th>
+                    
+                    
+                    {% endif %}
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="col">
+            {% if cart.cartproduct_set.all %}
+            
+             <a href="{% url 'store:checkout' %}" class="btn btn-primary ">Checkout</a></th>
+             <a href="{% url 'store:home' %}" class="btn btn-primary">Shop More</a>
+                
+            {% endif %}
+        </div>
+        
+    </div>
+
+</div>
+
+{% endblock %}
