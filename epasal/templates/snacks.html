@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 g-3">
+    <div class="col">
+        <div class=" list-group">
+            <a href="/" class="list-group-item list-group-item-action">All Product</a>
+            <a href="groceries.html" class="list-group-item list-group-item-action">Groceries</a>
+            <a href="" class="list-group-item list-group-item-action active">Snack</a>
+            <a href="beverages.html" class="list-group-item list-group-item-action">beverage</a>
+            <a href="stationaries.html" class="list-group-item list-group-item-action">Stationaries</a>
+            <a href="packagedfoods.html" class="list-group-item list-group-item-action">Packaged Food</a>
+            <a href="personalandhomecare.html" class="list-group-item list-group-item-action">personal and home care</a>
+            <a href="others.html" class="list-group-item list-group-item-action">Others</a>
+        </div>
+    </div>
+    {% for product in product_list%}
+    <div class="col">
+        <div class="card shadow-sm">
+            <a href="{% url 'store:productdetail' product.slug %}"><img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}" ></img></a>
+        </div>
+        <p>{{ product.name }}</p>
+        <div class="row card-body">
+            <div class="col">
+                
+                <div class="fs-card-price">
+                    <span class="currency text-primary">Rs.</span>
+                    <span class="price text-primary">{{ product.price }}</span>
+                </div>
+                <div class="fs-card-origin-price">
+                    <span class="currency">Rs.</span>
+                    <span class="price text-decoration-line-through">{{ product.originalprice }}</span>
+                </div>
+            </div>
+            <div class="col"><a href="" class="btn btn-primary">ADD TO CART</a></div>
+        </div>
+        
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
