@@ -1,0 +1,29 @@
+{%extends "base.html"%}
+{%block content%}
+
+<div>
+    <h2>Select Payment Options: </h2>
+    <h3>Payable Amount: <span class="text-info">Rs.{{order.total}}</span></h3>
+    
+
+</div>
+<hr>
+<div class="form" style="margin-bottom: 20px;">
+    <form action="{% url 'store:paymentmethod' %}" method="post">
+        {%csrf_token%}
+        <input type="hidden" name="token" value="{{order.id}}">
+        <input type="hidden" name="amount" value="{{order.total}}">
+        1.  <button type="submit" class="btn btn-primary">Khalti</button>
+        
+        
+
+    </form>
+    Dont select any payment method options if you want to pay on delivery.<a href="{% url 'store:home' %}">Go to home.</a>
+    
+
+</div>
+
+
+
+
+{%endblock%}

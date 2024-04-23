@@ -2,6 +2,7 @@ from django.urls import path
 from .views import *
 
 
+
 app_name = "store"
 urlpatterns = [
     path("",HomeView.as_view(),name="home"),
@@ -35,6 +36,8 @@ urlpatterns = [
     path("cancel-order/<int:cp_id>/", CancelOrderView.as_view(), name="cancelorder"),
 
     path("search/", SearchView.as_view(), name="search"),
+
+    path("payment-method/", PaymentMethodView.as_view(), name="paymentmethod"),
 
     
     

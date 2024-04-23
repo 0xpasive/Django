@@ -244,11 +244,32 @@ class CheckoutView(storeMixin,TemplateView):
             email=email,
             phone=phone,
             address=address,
+            total=cart.total,
             order_id=cart.cart_id
             
         )
         del request.session['cart_id']
-        return redirect(reverse("store:home"))
+        return redirect(reverse("store:paymentmethod")+ "?o_id=" + str(order.id)) 
+    
+class PaymentMethodView(storeMixin,TemplateView):
+    template_name = "paymentmethod.html"
+
+    
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order_id = self.request.GET.get("o_id")
+        order = Order.objects.get(id=order_id)
+        context['order'] = order
+        return context
+    
+    
+
+        
+        
+    
+
     
 
 

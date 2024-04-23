@@ -70,6 +70,7 @@ class Order(models.Model):
     email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=100)
     status = models.CharField(max_length=100, choices=ORDER_STATUS, default='Order Processing')
+    payment_method = models.CharField(max_length=100, default='Cash on Delivery')
     
     def __str__(self):
         return "Order: " + self.order_id
