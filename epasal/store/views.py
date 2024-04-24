@@ -287,7 +287,8 @@ class PaymentMethodView(storeMixin,TemplateView):
             "customer_info": {
             "name": name,
             "email": email,
-            "phone": phone
+            "phone": phone,
+            "merchant_username": "epasal"
             }
         })
         headers = {
