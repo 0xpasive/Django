@@ -283,7 +283,7 @@ class PaymentMethodView(storeMixin,TemplateView):
             "website_url": "http://127.0.0.1:8000/",
             "amount": amount_new,
             "purchase_order_id": order_id,
-            "purchase_order_name": "E-pasal",
+            "purchase_order_name": "Epasal",
             "customer_info": {
             "name": name,
             "email": email,
