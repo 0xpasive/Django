@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from . import views
 
 
 
@@ -38,6 +39,10 @@ urlpatterns = [
     path("search/", SearchView.as_view(), name="search"),
 
     path("payment-method/", PaymentMethodView.as_view(), name="paymentmethod"),
+    path("verify-payment/", views.verify_payment, name="verifypayment"),
+
+    path("payment-success/", PaymentSuccessView.as_view(), name="paymentsuccess"),
+    path("payment-failed/", PaymentFailedView.as_view(), name="paymentfailed"),
 
     
     

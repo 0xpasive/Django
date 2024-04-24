@@ -11,14 +11,20 @@
 <div class="form" style="margin-bottom: 20px;">
     <form action="{% url 'store:paymentmethod' %}" method="post">
         {%csrf_token%}
-        <input type="hidden" name="token" value="{{order.id}}">
+        <input type="hidden" name="order_id" value="{{order.id}}">
         <input type="hidden" name="amount" value="{{order.total}}">
+        <input type="hidden" name="name" value="{{order.name}}">
+        <input type="hidden" name="email" value="{{order.email}}">
+        <input type="hidden" name="phone" value="{{order.phone}}">
         1.  <button type="submit" class="btn btn-primary">Khalti</button>
         
         
 
     </form>
     Dont select any payment method options if you want to pay on delivery.<a href="{% url 'store:home' %}">Go to home.</a>
+
+   
+
     
 
 </div>

@@ -11,6 +11,8 @@ from .forms import CustomerRegistrationForm, CustomerLoginForm
 from django.contrib.auth import authenticate, login, logout 
 from django.db.models import Q
 from django.core.paginator import Paginator
+import json
+import requests
 
 
 
@@ -263,6 +265,86 @@ class PaymentMethodView(storeMixin,TemplateView):
         order = Order.objects.get(id=order_id)
         context['order'] = order
         return context
+    
+    def post(self, request, *args, **kwargs):
+        order_id = request.POST.get("order_id")
+        amount = request.POST.get("amount")
+        #convert amount to paisa
+        amount_new = int(float(amount)*100)
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        phone = request.POST.get("phone")
+
+        url ="https://a.khalti.com/api/v2/epayment/initiate/"
+        
+        payload = json.dumps(
+        {
+            "return_url": "http://127.0.0.1:8000/verify-payment/",
+            "website_url": "http://127.0.0.1:8000/",
+            "amount": amount_new,
+            "purchase_order_id": order_id,
+            "purchase_order_name": "E-pasal",
+            "customer_info": {
+            "name": name,
+            "email": email,
+            "phone": phone
+            }
+        })
+        headers = {
+            'Authorization': 'key f0755fada7f54733b7e2627ee275e91a',
+            'Content-Type': 'application/json',
+        }
+        response = requests.request("POST", url, headers=headers, data=payload)
+        print(response.text)
+
+        if response.status_code == 200:
+            payment_url = response.json().get("payment_url")
+            return redirect(payment_url)
+        else:   
+            return redirect(reverse("store:paymentmethod") + "?o_id=" + order_id)
+        
+
+def verify_payment(request):
+
+    url = "https://a.khalti.com/api/v2/epayment/lookup/"
+    if request.method == 'GET':
+        headers = {
+            'Authorization': 'key f0755fada7f54733b7e2627ee275e91a',
+            'Content-Type': 'application/json',
+        }
+        pidx = request.GET.get('pidx')
+        order_id = request.GET.get('purchase_order_id')
+        data = json.dumps({
+            'pidx':pidx
+        })
+        res = requests.request('POST',url,headers=headers,data=data)
+        print(res)
+        print(res.text)
+
+        new_res = json.loads(res.text)
+        print(new_res)
+        
+
+        if new_res['status'] == 'Completed':
+            order = Order.objects.get(id=order_id)
+            order.payment_method = "Khalti"
+            order.save()
+
+            return redirect(reverse("store:paymentsuccess"))
+            
+        else:
+            return redirect(reverse("store:paymentfailed"))
+        
+class PaymentSuccessView(storeMixin,TemplateView):
+    template_name = "paymentsuccess.html"
+
+class PaymentFailedView(storeMixin,TemplateView):
+    template_name = "paymentfailed.html"
+            
+       
+
+
+        
     
     
 
