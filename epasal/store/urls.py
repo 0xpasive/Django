@@ -44,6 +44,8 @@ urlpatterns = [
     path("payment-success/", PaymentSuccessView.as_view(), name="paymentsuccess"),
     path("payment-failed/", PaymentFailedView.as_view(), name="paymentfailed"),
 
+    path("edit-profile/", EditProfileView.as_view(), name="editprofile"),
+
     
     
    

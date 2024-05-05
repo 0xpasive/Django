@@ -466,6 +466,24 @@ class SearchView(TemplateView):
         return context
 
 
+class EditProfileView(View):
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get("full_name")
+        email = request.POST.get("email")
+        address = request.POST.get("address")
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        customer = request.user.customer
+        customer.full_name = name
+        customer.user.email = email
+        customer.user.username = username
+        customer.address = address
+        if password:
+            customer.user.set_password(password)
+        customer.save()
+        customer.user.save()
+        return redirect(reverse("store:customerprofile"))
+
 
 
         
