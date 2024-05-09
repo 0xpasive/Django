@@ -1,4 +1,4 @@
-# Django Ecommerce website
+# E-Pasal (E-Commerce website)
 
 ## Description
 Welcome to E-pasal! This is a Django-based e-commerce platform designed to provide a seamless shopping experience for users. Our platform offers a wide range of products, easy navigation, secure payments, and much more.
